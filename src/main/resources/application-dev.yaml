@@ -1,0 +1,7 @@
+# Tikai izstrādei, ieslēdz ar profilu dev
+app:
+  jwt:
+    secret: izstrades-atslega-nelietot-produkcija-0123456789
+  dev-login:
+    # Ļauj ieiet izstrādes kontā bez paroles
+    enabled: true

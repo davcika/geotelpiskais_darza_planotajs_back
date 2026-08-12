@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: darza-planotajs
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/darza_planotajs}
+    username: ${DB_USER:darza}
+    password: ${DB_PASSWORD:darza}
+  jpa:
+    # Shēmu veido tikai Flyway, Hibernate tikai pārbauda, vai entītijas tai atbilst
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  servlet:
+    multipart:
+      # Paciņu bildes līdz 5 MB
+      max-file-size: 5MB
+      max-request-size: 6MB
+  mvc:
+    problemdetails:
+      enabled: true
+
+# Bez JWT_SECRET serveris nestartē un dev login ir izslēgts, izstrādei palaid ar profilu dev.
+app:
+  jwt:
+    # Tokenu paraksta atslēga, vismaz 32 simboli
+    secret: ${JWT_SECRET}
+  dev-login:
+    enabled: false
+  assistant:
+    # Groq bezmaksas API, bez atslēgas palīgs atbild 503, bet viss pārējais strādā
+    groq:
+      api-key: ${GROQ_API_KEY:}
+      model: ${GROQ_MODEL:openai/gpt-oss-120b}
+      base-url: https://api.groq.com/openai/v1
+  photos:
+    # Sēklu paciņu bilžu mape, faila vārdi ir servera UUID
+    dir: ${PHOTOS_DIR:${user.home}/.darza-planotajs/photos}
+    cleanup-interval: PT6H
+  address:
+    import:
+      # VZD adrešu reģistrs, var norādīt arī lokālu faila ceļu
+      enabled: true
+      source: https://data.gov.lv/dati/dataset/6b06a7e8-dedf-4705-a47b-2a7c51177473/resource/a510737a-18ce-400f-ad4b-04fce5228272/download/aw_eka.csv
+      charset: UTF-8
+      max-age: P30D
